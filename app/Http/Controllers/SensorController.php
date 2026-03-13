@@ -11,6 +11,7 @@ class SensorController extends Controller
 {
     /**
      * 1. Fungsi untuk menarik data Cuaca dari BMKG (Parsing XML)
+     * Digunakan oleh ESP32 untuk mendapatkan data curah hujan real-time.
      */
     public function getRainFromBMKG()
     {
@@ -57,6 +58,7 @@ class SensorController extends Controller
 
     /**
      * 2. Fungsi untuk menerima data dari ESP32 (Metode POST)
+     * Menyimpan data gabungan sensor fisik & data ramalan cuaca ke database.
      */
     public function store(Request $request)
     {
@@ -66,9 +68,9 @@ class SensorController extends Controller
                 'gyro_y'        => $request->gyro_y ?? 0,
                 'gyro_z'        => $request->gyro_z ?? 0,
                 'soil_moisture' => $request->soil ?? 0,
-                'rainfall'      => $request->rain ?? 0, // Data BMKG dari ESP32 masuk sini
+                'rainfall'      => $request->rain ?? 0, // Data BMKG yang dikirim ulang oleh ESP32
                 'suhu'          => $request->suhu ?? 0,
-                'status'        => $request->status ?? 0, // Penting untuk buzzer/LED dashboard
+                'status'        => $request->status ?? 0, // 0: AMAN, 1: WASPADA, 2: BAHAYA, 3: S.BAHAYA
                 'latitude'      => $request->lat ?? 0,
                 'longitude'     => $request->lng ?? 0,
             ]);
@@ -82,6 +84,7 @@ class SensorController extends Controller
 
     /**
      * 3. Fungsi untuk mengirim data ke Dashboard/Grafik (Metode GET)
+     * Digunakan oleh JavaScript di Frontend untuk update chart real-time.
      */
     public function index()
     {

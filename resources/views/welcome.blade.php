@@ -137,8 +137,6 @@
         </div>
     </div>
 
-    
-
     <script>
         const myCurrentPos = [-6.920421, 106.926643]; 
         const map = L.map('map', { zoomControl: false }).setView(myCurrentPos, 15);
@@ -172,7 +170,7 @@
 
         async function updateDashboard() {
             try {
-                const response = await fetch('http://192.168.1.3:8080/api/data-sensor?t=' + Date.now());
+                const response = await fetch('http://192.168.43.179:8080/api/data-sensor?t=' + Date.now());
                 const data = await response.json();
 
                 if (!data || data.length === 0) return;
